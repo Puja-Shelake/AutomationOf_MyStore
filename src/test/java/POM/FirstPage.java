@@ -57,11 +57,22 @@ public class FirstPage {
 	public void productCategoris() {
 		List<WebElement> list = driver.findElements(listOfItems);
 
+		int Count=0;
+		
 		for (int i = 0; i < list.size(); i++) {
-			System.out.print(list.get(i).getText() + "  ");
+			//System.out.print(list.get(i).getText() + "  ");
 
+			String str=list.get(i).getText();
+			
+			if(str.contains("WOMEN") || str.contains("DRESSES")||str.contains("T-SHIRTS")) {
+				
+				Count++;
+			}
+				
 		}
-		System.out.println();
+		
+	//	String str=null;
+		System.out.println(Count);
 	}
 
 	public void searchItems() throws InterruptedException {
@@ -71,8 +82,16 @@ public class FirstPage {
 
 	public String searchResultValidation() {
 
+		try {
+			Thread.sleep(3000);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		String txt = driver.findElement(searchResult).getText();
 
+		
 		return txt;
 
 	}

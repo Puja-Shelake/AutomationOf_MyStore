@@ -16,9 +16,9 @@ import io.cucumber.junit.CucumberOptions;
             "html:target/MyReports/report.html",
             "json:target/MyReports/report.json",
             "junit:target/MyReports/report.xml",
-            }
-//        publish=true,
-//        dryRun=false 
+            },
+        publish=true,
+        dryRun=false 
         )
 
 
