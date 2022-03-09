@@ -8,17 +8,17 @@ import io.cucumber.junit.CucumberOptions;
 @RunWith(Cucumber.class)
 @CucumberOptions(
 		
-		features = {"src/test/resources/feature"},
+		features = {"src/test/resources/feature/Assignment.feature"},
 		glue = {"StepDefinition","Hooks"},
 		monochrome = true,
-		tags="", 
+		tags="@twitter", 
         plugin = {"pretty",
             "html:target/MyReports/report.html",
             "json:target/MyReports/report.json",
             "junit:target/MyReports/report.xml",
-            },
-        publish=true,
-        dryRun=false 
+            }
+        //publish=true
+        //dryRun=false 
         )
 
 

@@ -13,86 +13,92 @@ import io.cucumber.java.en.When;
 public class StepDefinitions {
 
 	String BaseURL = "http://automationpractice.com";
-	String actualRedirection = "http://automationpractice.com/index.php";
 
 	FirstPage fobj = new FirstPage(DriverFactory.getDriver());
 
 	Logger log=Logger.getLogger(StepDefinitions.class);
-	
-	
-	@Given("Application URL redirection Redirected to {string}")
-	public void application_url_redirection_redirected_to(String url) {
+
+	@Given("User Launch url")
+	public void user_launch_url() {
 		PropertyConfigurator.configure("log4j.properties");
-		
-		log.info("after launching Url is "+url);
-		fobj.getRedirection();
+		fobj.getLaunch();
+		log.info("User launch url");
+	}
+	@Given("User is on home page")
+	public void user_is_on_home_page() {
+	String tilte=fobj.homePageTitle();
+	log.info("User is on home");
+	Assert.assertEquals("My Store", tilte);
+	log.info("Title of the page is :"+tilte);
+	}
+	
+	
+	@When("User gets redirected URL {string}")
+	public void user_gets_redirected_url(String url) {
+
+		fobj.getUrlOfPage();	
 		String currentUrl = fobj.getUrlOfPage();
 		Assert.assertEquals("Getting Wrong URL", currentUrl, url);
-		
+		log.info("After launching url navigated to  " + url);
 	}
 
-	@When("Application logo visibility")
-	public void application_logo_visibility() {
-		
+	@When("After launching Check logo is displayed or not")
+	public void after_launching_check_logo_is_displayed_or_not() {
 		boolean b = fobj.checkLogoVisiblility();
 		Assert.assertTrue(b);
 		
-		log.info("Checked Whether logo is displyed Or not");
+		log.info(" logo is displyed");
+	}
+	@When("Logo  having width is {int} and height is {int}")
+	public void logo_having_width_is_and_height_is(Integer width, Integer height) {
+	fobj.checkWidthHeight(width, height);
+		
+		log.info("Getting width is:"+width+"and"+"height of the attribute is :"+height);
 	}
 
-	@When("Application logo width is {int} & height is {int}")
-	public void application_logo_width_is_height_is(Integer width, Integer height) {
-		fobj.checkWidthHeight(width, height);
-		
-		log.info("Getting width and height of the attribute");
-	}
 
-	@When("Application product main category list validation")
-	public void application_product_main_category_list_validation() {
-		fobj.productCategoris();
-		log.info("How many product will displayed on page");
-	}
+	
 
-	@Then("Application Search functionality")
-	public void application_search_functionality() throws InterruptedException {
-		fobj.searchItems();
-		
-		log.info("Searched any product");
-		
-		String txt = fobj.searchResultValidation();
+@Then("After Launching categories of the product count is {int}")
+public void after_launching_categories_of_the_product_count_is(Integer c) {
+	int count=fobj.productCategoris();
+	
+	log.info("Count of the product will displayed on page is :"+count);
+}
+@When("Displayed text the product categoris")
+public void displayed_text_the_product_categoris() {
+    fobj.txtOfProductCategoris();
+    log.info("3 text displyed");
+}	
+	
 
-		if (txt.contains("T-shirt")) {
+@When("User Enters text “T-shirt”")
+public void user_enters_text_t_shirt() throws InterruptedException {
+	fobj.searchItems();
+	log.info("Items searched");
+	
+   
+}
+@Then("Search Engine gives suggestion to user with entered text i.e “T-shirt”")
+public void search_engine_gives_suggestion_to_user_with_entered_text_i_e_t_shirt() {
+fobj.searchResultValidation();
+log.info("After entering user can see entered items in Suggetions");
+}
 
-			fobj.doClick();
-		}
+@When("User Click on twitter link its navigated to new window")
+public void user_click_on_twitter_link_its_navigated_to_new_window() {
+   fobj.linkedToTwitter();
+   log.info("Clicked on twitter link from footer of the landing page");
+}
+@When("User gets account name is {string}")
+public void user_gets_account_name_is(String acName) {
+	String acname=fobj.AccountName();
+   
+	Assert.assertEquals(acName, acname);
+	
+	log.info("Account name is Selenium Framework");
+}
 
-		
-	}
 
-	@Then("Application social media handles validation")
-	public void application_social_media_handles_validation() {
-		fobj.linkedToTwitter();
-		log.info("Click on twitter icon");
-		try {
-			Thread.sleep(10000);
-		} 
-		catch (InterruptedException e) {
-			
-			e.printStackTrace();
-		}
-
-		String txt = fobj.openNewWindow();
-		
-		log.info("After clicking on twitter icon it will navigate to  new window ");
-		
-		
-		if (txt.contains("Selenium Framework")) {
-			String accountName=fobj.AccountName();
-			
-			Assert.assertEquals(accountName, "Selenium Framework");
-			
-			log.info("Check Account name of twitter");
-		}
-	}
 
 }

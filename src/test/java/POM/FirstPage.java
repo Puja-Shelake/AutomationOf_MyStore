@@ -2,15 +2,21 @@ package POM;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 public class FirstPage {
 
 	WebDriver driver;
+
 
 	private By logo = By.xpath("//img[@class='logo img-responsive']");
 	private By width = By.xpath("//img[@class='logo img-responsive']");
@@ -19,15 +25,23 @@ public class FirstPage {
 	private By searchBtn = By.name("submit_search");
 	private By searchResult = By.xpath("//div[@class='ac_results']//ul//li");
 	private By twitterLink = By.xpath("//li[@class='twitter']");
-	private By accountName = By.xpath("//span[contains(@class,'css-901oao ') and text()='Selenium Framework']");
+	private By accountName = By.xpath("///span[contains(@class,'css-901oao ') and text()='Selenium Framework']");
 
 	public FirstPage(WebDriver driver) {
 		this.driver = driver;
 	}
 
-	public void getRedirection() {
+	
+	public void getLaunch() {
+		
 		driver.get("http://automationpractice.com/");
 	}
+
+	public String homePageTitle() {
+		
+		return driver.getTitle();
+	}
+	
 
 	public String getUrlOfPage() {
 		return driver.getCurrentUrl();
@@ -47,20 +61,23 @@ public class FirstPage {
 		
 		int hgt=Integer.valueOf(heightOfLogo);
 		
-		if(wdt==w && hgt==h)
+		if(wdt==350 && hgt==99)
 		{
-			System.out.println("application logo width is :"+wdt+" height is :"+hgt);
+	//		System.out.println("application logo width is :"+wdt+" height is :"+hgt);
+	
+			Assert.assertTrue(true);
+			
 		}
 
 	}
 
-	public void productCategoris() {
+	public int productCategoris() {
 		List<WebElement> list = driver.findElements(listOfItems);
 
 		int Count=0;
 		
 		for (int i = 0; i < list.size(); i++) {
-			//System.out.print(list.get(i).getText() + "  ");
+			
 
 			String str=list.get(i).getText();
 			
@@ -68,16 +85,41 @@ public class FirstPage {
 				
 				Count++;
 			}
+			
+		}
+	
+		return Count;
+	
+	}
+	
+	public void txtOfProductCategoris() {
+		List<WebElement> list = driver.findElements(listOfItems);
+	
+		for (int i = 0; i < list.size(); i++) {
+			
+
+			String str=list.get(i).getText();
+			
+			if(str.contains("WOMEN") || str.contains("DRESSES")||str.contains("T-SHIRTS")) {
+				
+				System.out.print(list.get(i).getText() + "  ");
+			}
+			
+		
 				
 		}
-		
-	//	String str=null;
-		System.out.println(Count);
+	
+	
 	}
 
 	public void searchItems() throws InterruptedException {
 		driver.findElement(searchBox).sendKeys("T-shirt");
-		Thread.sleep(3000);
+//		WebElement e=driver.findElement(searchResult);
+//		WebDriverWait wait = new WebDriverWait(driver,10);
+//		wait.until(ExpectedConditions.visibilityOf(e));
+//		
+		
+	
 	}
 
 	public String searchResultValidation() {
@@ -89,6 +131,7 @@ public class FirstPage {
 		{
 			e.printStackTrace();
 		}
+		
 		String txt = driver.findElement(searchResult).getText();
 
 		
