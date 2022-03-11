@@ -8,20 +8,20 @@ import io.cucumber.junit.CucumberOptions;
 @RunWith(Cucumber.class)
 @CucumberOptions(
 		
-		features = {"src/test/resources/feature/Assignment.feature"},
+		features = {"@target/rerunfile.txt"},
 		glue = {"StepDefinition","Hooks"},
 		monochrome = true,
-		tags="@All", 
+	   // tags="@twitter", 
         plugin = {"pretty",
             "html:target/MyReports/report.html",
             "json:target/MyReports/report.json",
             "junit:target/MyReports/report.xml",
             "rerun:target/rerunfile.txt",
-            },
-        publish=true,
-        dryRun=false 
+            }
         )
 
-public class Runner {
+
+public class FailedScenarioRunner {
+	
 
 }

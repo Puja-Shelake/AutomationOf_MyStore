@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -19,50 +20,39 @@ import io.cucumber.java.Scenario;
 
 public class Base {
 
-	private DriverFactory dobj=new DriverFactory();
+	private DriverFactory dobj = new DriverFactory();
 	private WebDriver driver;
-	private ConfigReader cobj=new ConfigReader();
+	private ConfigReader cobj = new ConfigReader();
 	Properties prop;
 
-	@Before
+	@Before(order = 0)
 	public void getProperty() throws IOException {
-		prop=cobj.init_prop(); 
-		String bName=prop.getProperty("browser");
-		driver=dobj.init_Driver(bName);
+		prop = cobj.init_prop();
+
 	}
 
-	@After
+	@After(order = 0)
 	public void quitBrowser() {
 		driver.quit();
 	}
-	
 
-	@BeforeStep
-	public void s() {
-		
+	@Before(order = 1)
+	public void detDriverByPageFactory() {
+		String bName = prop.getProperty("browser");
+		driver = dobj.init_Driver(bName);
+
 	}
-	
-	@AfterStep
+
+	@After(order = 1)
 	public void tearDwon(Scenario scenario) throws IOException {
 		if (scenario.isFailed()) {
-			String ss = scenario.getName().replaceAll(" ", "_");
 
+			String s = scenario.getName().replaceAll(" ", "_");
 			TakesScreenshot ts = (TakesScreenshot) driver;
-
-			// byte[] b = ts.getScreenshotAs(OutputType.BYTES);
-
-			File ssInput = ts.getScreenshotAs(OutputType.FILE);
-
-			//name=driverFactory.RandomString();
-			
-			
-			File fs = new File("/home/shelke/Downloads/Mision/CucumberBDDAssignment/Ss"+".jpg");
-
-			FileHandler.copy(ssInput, fs);
-
-			// scenario.attach(b, "image/png", ss);
+			byte[] bytes = ts.getScreenshotAs(OutputType.BYTES);
+			scenario.attach(bytes, "image/png", s);
 
 		}
 	}
-	
+
 }

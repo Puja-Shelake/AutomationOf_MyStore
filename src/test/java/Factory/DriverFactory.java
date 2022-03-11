@@ -9,52 +9,37 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class DriverFactory {
 
 	WebDriver driver;
-	
-	public static ThreadLocal<WebDriver> tlDriver=new ThreadLocal<WebDriver>();
-	
-	
+
+	public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<WebDriver>();
+
 	public WebDriver init_Driver(String browserName) {
-		
-		if(browserName.equals("firefox"))
-		{
+
+		if (browserName.equals("firefox")) {
 			WebDriverManager.chromedriver().setup();
-		
+
 			tlDriver.set(new ChromeDriver());
-		}
-		else if(browserName.equals("firefox"))
-		{
+		} else if (browserName.equals("firefox")) {
 			WebDriverManager.firefoxdriver().setup();
 			tlDriver.set(new FirefoxDriver());
 		}
-	
-		else
-		{
+
+		else {
 			System.out.println("Please give valid browser");
 		}
-		
-		driver=getDriver();
-		
+
+		driver = getDriver();
+
 		driver.manage().window().maximize();
 		driver.manage().deleteAllCookies();
-		
+
 		return driver;
-		
+
 	}
-	
-	
-	public static  WebDriver getDriver() {
+
+	public static WebDriver getDriver() {
 
 		return tlDriver.get();
-		
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
